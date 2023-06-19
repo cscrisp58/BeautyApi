@@ -1,26 +1,22 @@
-const express = require('express');
+import  express  from 'express';
+import {conn} from './db.js';
+
 const app = express();
 
 app.use(express.json());
 
-const beauServices = [
-     { id: 1, name: 'Hair style', gentle: 'woman'},
-     { id: 2, name: 'Barber shop', gentle: 'man'},
-     { id: 3, name: 'Massasge', gentle: 'n/a' },
-     { id: 4, name: 'Cosmetic service', gentle: 'n/a'},
-     { id: 5, name: 'Tattoo', gentle: 'n/a'}   
-]
-
-app.get('/', (req, res) => {
-    res.send('Hello "Beauty Api"');
+app.get('/', async (req, res) => {
+    const result = await conn.query('SELECT * FROM service')
+    res.send(result);
 });
 
 app.get('/api/v1/services', (req, res) => {
     res.send(beauServices);
 });
 
-app.get('/api/v1/services/:id', (req, res) => {
-    const service = beauServices.find(c => c.id === parseInt(req.params.id));
+app.get('/api/v1/services/:id', async (req, res) => {
+    const service = 
+     beauServices.find(c => c.id === parseInt(req.params.id));
     if (!service) return res.status(404).send('The service was not found');
     else res.send(service);
 });
