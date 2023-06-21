@@ -5,5 +5,5 @@ export const conn = createPool({
     user: 'uebuitnyrvpueypm',
     password: '2r598xnZMyY9Ei5XiM0x',
     port: '3306',
-    database: 'services'
+    database: 'bsjx0m7qihwv3i4g98jc'
 });
