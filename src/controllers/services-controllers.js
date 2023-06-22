@@ -38,7 +38,12 @@ export const getServiceById = async (req, res) => {
 export const updateServiceById = async (req, res) => {
     const idServ = parseInt(req.params.id)
     const reqBody = req.body
-    const [result] = await conn.query(`UPDATE services SET name = '${reqBody.name}', gentle = '${reqBody.gentle}' WHERE id = ${idServ}`, )
-    if (!result) return res.status(404).send('The service was not found');
-    else res.send({ result });
-}
+    const [result] = await conn.query(`UPDATE services SET name = '${reqBody.name}', gentle = '${reqBody.gentle}' WHERE id = ${idServ}`)
+    if (result.affectedRows === 0) {
+        return res.status(404).send('The service was not found')
+    } if(result.affectedRows >= 1){
+        const showResult = await conn.query(`SELECT id, name, gentle FROM services WHERE id = ${idServ}`)
+        res.send(showResult[0])
+    } 
+    }
+   
